@@ -5,22 +5,14 @@ import (
 	"fmt"
 	"github.com/algorand/go-algorand-sdk/client/v2/common/models"
 	"github.com/algorand/go-algorand-sdk/client/v2/indexer"
-	"regexp"
-	"strings"
+    "github.com/stein-f/popcorn-scripts/popcorn"
+    "strings"
 )
 
 const (
 	shrimpASAID  = 360019122
 	shrimpWallet = "POPCORNWIGBQSN7KTVJVGGYIP6CSUDMWD3BROJG2HMAXH73N4OQ3QJJN5M"
 )
-
-type Bet struct {
-	Game   string
-	Bet    string
-	Amount string
-}
-
-var txNoteRegexp = regexp.MustCompile(`game:(?P<game>.+)bet:(?P<bet>.+)amount:(?P<amount>.+)`)
 
 func main() {
 	indexerClient, err := indexer.MakeClient("https://mainnet-idx.algonode.cloud", "")
@@ -35,7 +27,7 @@ func main() {
 
 	var germanyCount, japanCount, overCount, underCount int
 	for _, tx := range txns {
-		bet, ok := parseTxNote(string(tx.Note))
+		bet, ok := popcorn.ParseTxNote(string(tx.Note))
 		if !ok {
 			continue
 		}
@@ -82,20 +74,4 @@ func fetchTransactionsAfterTime(indexerClient *indexer.Client, afterTime string)
 		}
 	}
 	return txns, nil
-}
-
-// Parses the transaction note field. Covers these basic examples only
-// game: England (-1.5) vs Iran (+1.5) bet: Iran amount: 300
-// game: England vs Iran bet: Over 2.5 Goals amount: 300
-func parseTxNote(txNote string) (Bet, bool) {
-	matches := txNoteRegexp.FindStringSubmatch(txNote)
-	if matches == nil {
-		return Bet{}, false
-	}
-
-	game := strings.TrimSpace(matches[txNoteRegexp.SubexpIndex("game")])
-	bet := strings.TrimSpace(matches[txNoteRegexp.SubexpIndex("bet")])
-	amount := strings.TrimSpace(matches[txNoteRegexp.SubexpIndex("amount")])
-
-	return Bet{Game: game, Bet: bet, Amount: amount}, true
 }
