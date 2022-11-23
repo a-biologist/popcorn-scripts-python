@@ -21,6 +21,19 @@ Over: 22
 Under: 20
 ```
 
+## Display bets for a given user
+
+`go run scripts/show-wallet-bets/main.go`
+
+Output
+
+```text
+Game: Senegal (+1) vs Netherlands (-1), Bet: Netherlands, Amount: 100
+Game: Senegal vs Netherlands, Bet: Under 2.5 Goals, Amount: 300
+Game: England (-1.5) vs Iran (+1.5), Bet: England, Amount: 300
+Game: England vs Iran, Bet: Under 2.5 Goals, Amount: 300
+```
+
 # Run tests
 
 ```bash

@@ -1,7 +1,8 @@
 package popcorn
 
 import (
-	"regexp"
+    "fmt"
+    "regexp"
 	"strings"
 )
 
@@ -11,6 +12,10 @@ type Bet struct {
 	Game   string
 	Bet    string
 	Amount string
+}
+
+func (bet Bet) String() string {
+    return fmt.Sprintf("Game: %s, Bet: %s, Amount: %s", bet.Game, bet.Bet, bet.Amount)
 }
 
 // ParseTxNote parses the transaction note field. Covers these basic examples only
