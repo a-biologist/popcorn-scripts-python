@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/algorand/go-algorand-sdk/client/v2/common/models"
 	"github.com/algorand/go-algorand-sdk/client/v2/indexer"
-    "github.com/stein-f/popcorn-scripts/popcorn"
-    "strings"
+	"github.com/stein-f/popcorn-scripts/popcorn"
+	"strings"
 )
 
 const (
