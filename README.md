@@ -20,3 +20,9 @@ Japan: 17
 Over: 22
 Under: 20
 ```
+
+# Run tests
+
+```bash
+make test
+```
