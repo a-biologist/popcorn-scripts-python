@@ -15,9 +15,9 @@ const (
 )
 
 type Bet struct {
-    Game   string
-    Bet    string
-    Amount string
+	Game   string
+	Bet    string
+	Amount string
 }
 
 var txNoteRegexp = regexp.MustCompile(`game:(?P<game>.+)bet:(?P<bet>.+)amount:(?P<amount>.+)`)
@@ -28,33 +28,29 @@ func main() {
 		panic(err)
 	}
 
-    txns, err := fetchTransactions(indexerClient, "2022-11-21T12:00:00Z")
-    if err != nil {
-        panic(err)
-    }
+	txns, err := fetchTransactionsAfterTime(indexerClient, "2022-11-21T12:00:00Z")
+	if err != nil {
+		panic(err)
+	}
 
-	var germanyCount int
-	var japanCount int
-	var overCount int
-	var underCount int
-
+	var germanyCount, japanCount, overCount, underCount int
 	for _, tx := range txns {
 		bet, ok := parseTxNote(string(tx.Note))
 		if !ok {
 			continue
 		}
 
-        if strings.Contains(bet.Game, "Germany") && strings.Contains(bet.Game, "Japan") {
+		if strings.Contains(bet.Game, "Germany") && strings.Contains(bet.Game, "Japan") {
 			if strings.Contains(bet.Bet, "Germany") {
 				germanyCount++
 			}
-            if strings.Contains(bet.Bet, "Japan") {
+			if strings.Contains(bet.Bet, "Japan") {
 				japanCount++
 			}
-            if strings.Contains(bet.Bet, "Under") {
+			if strings.Contains(bet.Bet, "Under") {
 				underCount++
 			}
-            if strings.Contains(bet.Bet, "Over") {
+			if strings.Contains(bet.Bet, "Over") {
 				overCount++
 			}
 		}
@@ -66,26 +62,26 @@ func main() {
 	fmt.Printf("Under: %d\n", underCount)
 }
 
-func fetchTransactions(indexerClient *indexer.Client, afterTime string) ([]models.Transaction, error) {
-    next := ""
-    var txns []models.Transaction
-    for {
-        tx, err := indexerClient.LookupAccountTransactions(shrimpWallet).
-            AfterTimeString(afterTime).
-            Limit(1000).
-            NextToken(next).
-            AssetID(shrimpASAID).
-            Do(context.TODO())
-        if err != nil {
-            panic(err)
-        }
-        next = tx.NextToken
-        txns = append(txns, tx.Transactions...)
-        if tx.NextToken == "" {
-            break
-        }
-    }
-    return txns, nil
+func fetchTransactionsAfterTime(indexerClient *indexer.Client, afterTime string) ([]models.Transaction, error) {
+	next := ""
+	var txns []models.Transaction
+	for {
+		tx, err := indexerClient.LookupAccountTransactions(shrimpWallet).
+			AfterTimeString(afterTime).
+			Limit(1000).
+			NextToken(next).
+			AssetID(shrimpASAID).
+			Do(context.TODO())
+		if err != nil {
+			return nil, err
+		}
+		next = tx.NextToken
+		txns = append(txns, tx.Transactions...)
+		if tx.NextToken == "" {
+			break
+		}
+	}
+	return txns, nil
 }
 
 // Parses the transaction note field. Covers these basic examples only
