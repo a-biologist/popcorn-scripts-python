@@ -17,7 +17,7 @@ func TestParseTxNote(t *testing.T) {
 			wantBet: popcorn.Bet{
 				Game:   "England (-1.5) vs Iran (+1.5)",
 				Bet:    "Iran",
-				Amount: "300",
+				Amount: 300,
 			},
 			wantIsBet: true,
 		},
@@ -26,7 +26,7 @@ func TestParseTxNote(t *testing.T) {
 			wantBet: popcorn.Bet{
 				Game:   "England vs Iran",
 				Bet:    "Over 2.5 Goals",
-				Amount: "120",
+				Amount: 120,
 			},
 			wantIsBet: true,
 		},

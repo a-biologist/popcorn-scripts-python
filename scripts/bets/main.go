@@ -1,17 +1,17 @@
 package main
 
 import (
-    "fmt"
-    "github.com/algorand/go-algorand-sdk/client/v2/indexer"
-    "github.com/stein-f/popcorn-scripts/algorand"
-    "github.com/stein-f/popcorn-scripts/popcorn"
-    "strings"
+	"fmt"
+	"github.com/algorand/go-algorand-sdk/client/v2/indexer"
+	"github.com/stein-f/popcorn-scripts/algorand"
+	"github.com/stein-f/popcorn-scripts/popcorn"
+	"strings"
 )
 
 const (
 	shrimpASAID       = 360019122
 	shrimpWallet      = "POPCORNWIGBQSN7KTVJVGGYIP6CSUDMWD3BROJG2HMAXH73N4OQ3QJJN5M"
-	transactionsAfter = "2022-11-21T12:00:00Z"
+	transactionsAfter = "2022-11-22T12:00:00Z"
 )
 
 func main() {
@@ -31,14 +31,14 @@ func main() {
 		if !ok {
 			continue
 		}
-		if !strings.Contains(bet.Game, "Spain") || !strings.Contains(bet.Game, "Costa Rica") {
+		if !strings.Contains(bet.Game, "Switzerland") || !strings.Contains(bet.Game, "Cameroon") {
 			continue
 		}
 
-        if strings.Contains(bet.Bet, "Spain") {
+		if strings.Contains(bet.Bet, "Switzerland") {
 			germanyCount++
 		}
-        if strings.Contains(bet.Bet, "Costa Rica") {
+		if strings.Contains(bet.Bet, "Cameroon") {
 			japanCount++
 		}
 		if strings.Contains(bet.Bet, "Under") {
@@ -49,8 +49,8 @@ func main() {
 		}
 	}
 
-    fmt.Printf("Spain: %d\n", germanyCount)
-    fmt.Printf("Costa Rica: %d\n", japanCount)
+	fmt.Printf("Switzerland: %d\n", germanyCount)
+	fmt.Printf("Cameroon: %d\n", japanCount)
 	fmt.Printf("Over: %d\n", overCount)
 	fmt.Printf("Under: %d\n", underCount)
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
-    "fmt"
-    "github.com/algorand/go-algorand-sdk/client/v2/indexer"
-    "github.com/stein-f/popcorn-scripts/algorand"
-    "github.com/stein-f/popcorn-scripts/popcorn"
+	"fmt"
+	"github.com/algorand/go-algorand-sdk/client/v2/indexer"
+	"github.com/stein-f/popcorn-scripts/algorand"
+	"github.com/stein-f/popcorn-scripts/popcorn"
 )
 
 const (
