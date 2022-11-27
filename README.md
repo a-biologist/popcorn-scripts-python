@@ -8,13 +8,22 @@ The script depends on Golang being installed on your machine. You can install fr
 
 # Scripts
 
-## Count bets on teams
-
-`go run scripts/bets/main.go`
-
 ## Print world cup winners table
 
 `go run scripts/winners-table/main.go`
+
+Output
+
+```text
+W-L-P
+9-2-1, shrimp: 1950     4FBNL...IW6D4
+6-5-1, shrimp: 3600     chrundle.algo
+6-5-1, shrimp: 3600     AI7QM...PGYX4
+```
+
+## Count bets on teams
+
+`go run scripts/bets/main.go`
 
 Output
 
