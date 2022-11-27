@@ -31,14 +31,14 @@ func main() {
 		if !ok {
 			continue
 		}
-		if !strings.Contains(bet.Game, "Switzerland") || !strings.Contains(bet.Game, "Cameroon") {
+        if !strings.Contains(bet.Game, "Netherlands") || !strings.Contains(bet.Game, "Ecuador") {
 			continue
 		}
 
-		if strings.Contains(bet.Bet, "Switzerland") {
+        if strings.Contains(bet.Bet, "Netherlands") {
 			germanyCount++
 		}
-		if strings.Contains(bet.Bet, "Cameroon") {
+        if strings.Contains(bet.Bet, "Ecuador") {
 			japanCount++
 		}
 		if strings.Contains(bet.Bet, "Under") {
@@ -49,8 +49,8 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Switzerland: %d\n", germanyCount)
-	fmt.Printf("Cameroon: %d\n", japanCount)
+    fmt.Printf("Netherlands: %d\n", germanyCount)
+    fmt.Printf("Ecuador: %d\n", japanCount)
 	fmt.Printf("Over: %d\n", overCount)
 	fmt.Printf("Under: %d\n", underCount)
 }

@@ -12,6 +12,10 @@ The script depends on Golang being installed on your machine. You can install fr
 
 `go run scripts/bets/main.go`
 
+## Print world cup winners table
+
+`go run scripts/winners-table/main.go`
+
 Output
 
 ```text

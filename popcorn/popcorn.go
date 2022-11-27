@@ -17,6 +17,7 @@ const (
 
 	TypeSpread    = "SPREAD"
 	TypeOverUnder = "OU"
+	TypeCorners   = "CORNERS"
 
 	ChoiceOver  = "OVER"
 	ChoiceUnder = "UNDER"
@@ -36,12 +37,20 @@ func (bet Bet) IsSpreadBet() bool {
 	return !strings.Contains(bet.Bet, "Over") && !strings.Contains(bet.Bet, "Under")
 }
 
-func (bet Bet) IsOver() bool {
-	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Over")
+func (bet Bet) IsOverGoals() bool {
+	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Over") && !strings.Contains(bet.Game, "Corners")
 }
 
-func (bet Bet) IsUnder() bool {
-	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Under")
+func (bet Bet) IsUnderGoals() bool {
+	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Under") && !strings.Contains(bet.Game, "Corners")
+}
+
+func (bet Bet) IsOverCorners() bool {
+	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Over") && strings.Contains(bet.Game, "Corners")
+}
+
+func (bet Bet) IsUnderCorners() bool {
+	return !bet.IsSpreadBet() && strings.Contains(bet.Bet, "Under") && strings.Contains(bet.Game, "Corners")
 }
 
 type Game struct {
@@ -91,7 +100,9 @@ func FindGame(games []Game, bet Bet) (Game, bool) {
 		if !correctTeams {
 			return false
 		}
-		if bet.IsSpreadBet() {
+		if strings.Contains(bet.Game, "Corners") {
+			return g.Type == TypeCorners
+		} else if bet.IsSpreadBet() {
 			return g.Type == TypeSpread
 		} else {
 			return g.Type == TypeOverUnder
@@ -131,14 +142,30 @@ func GetBetResult(bet Bet, game Game) Result {
 	}
 
 	// handle over/under
-	if game.Result == ChoiceUnder && bet.IsUnder() {
+	if game.Result == ChoiceUnder && bet.IsUnderGoals() {
 		return Result{
 			Result: ResultWin,
 			Game:   game,
 			Amount: bet.Amount,
 		}
 	}
-	if game.Result == ChoiceOver && bet.IsOver() {
+	if game.Result == ChoiceOver && bet.IsOverGoals() {
+		return Result{
+			Result: ResultWin,
+			Game:   game,
+			Amount: bet.Amount,
+		}
+	}
+
+	// handle over/under corners
+	if game.Result == ChoiceUnder && bet.IsUnderCorners() {
+		return Result{
+			Result: ResultWin,
+			Game:   game,
+			Amount: bet.Amount,
+		}
+	}
+	if game.Result == ChoiceOver && bet.IsOverCorners() {
 		return Result{
 			Result: ResultWin,
 			Game:   game,

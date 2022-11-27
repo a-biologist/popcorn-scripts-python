@@ -43,14 +43,14 @@ func ResolveNfd(wallet string) string {
 		panic(err)
 	}
 	if res.StatusCode != 200 {
-		return TruncateAddress(wallet)
+        return TruncateAddress(wallet)
 	}
 	var recs []nfdRes
 	if err := json.NewDecoder(res.Body).Decode(&recs); err != nil {
 		panic(err)
 	}
 	if len(recs) == 0 {
-		return wallet
+        return TruncateAddress(wallet)
 	}
 	return recs[0].Name
 }
